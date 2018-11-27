@@ -5,12 +5,14 @@ class MessageList extends Component {
   render() {
     return (
       <main className="messages">
-      <div>
-          < Message />
-      </div>
-        <div className="message system">
-          Anonymous1 changed their name to nomnom.
-  </div>
+        {this.props.messages.map((message) => {
+          return (
+          <Message
+            key={message.id}
+            username={message.username}
+            content={message.content}
+          />)
+        })}
       </main>
     );
   }
