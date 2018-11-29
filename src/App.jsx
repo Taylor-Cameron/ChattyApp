@@ -35,6 +35,11 @@ export default class App extends Component {
       socket.onopen = function (event) {
         socket.send(JSON.stringify(newMessage));
       }
+      socket.onmessage = (event) => {
+        var msg = JSON.parse(event.data);
+        let messages = this.state.messages.concat(msg);
+        this.setState({messages: messages})
+      }
       console.log(newMessage);
       this.setState({
         messages: [...oldMessages, newMessage]

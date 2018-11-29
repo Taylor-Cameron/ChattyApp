@@ -1,7 +1,7 @@
 // server.js
 
 const express = require('express');
-const SocketServer = require('ws').Server;
+const SocketServer= require('ws');
 
 // Set the port to 3001
 const PORT = 3001;
@@ -13,12 +13,12 @@ const server = express()
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${PORT}`));
 
 // Create the WebSockets server
-const wss = new SocketServer({ server });
+const wss = new SocketServer.Server({ server });
 
-wss.broadcast = function broadcast(data) {
+wss.broadcast = function broadcast(msg) {
   wss.clients.forEach(function each(client) {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(data);
+    if (client.readyState === SocketServer.OPEN) {
+      client.send(msg);
     }
   });
 };
@@ -27,14 +27,12 @@ wss.broadcast = function broadcast(data) {
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  ws.send("Connected to server")
-  ws.on("message", function incoming(data) {
-    ws.clients.forEach(function each(client) {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(data);
+  ws.on("message", (msg) => {
+    wss.clients.forEach(function each(client) {
+      if (client !== ws && client.readyState === SocketServer.OPEN) {
+        client.send(msg);
       }
     })
-    console.log("User " + msg.username + " said " + msg.content);
   })
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => console.log('Client disconnected'));
