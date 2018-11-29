@@ -3,6 +3,7 @@ import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 import UUID from 'uuid';
 
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +20,12 @@ export default class App extends Component {
         this.setState({
           currentUser: event.target.value
         })
+        const newUser = {
+          type: 'postNotification',
+          content: (this.state.currentUser + ' has changed their name to ' + event.target.value)
+        }
+        this.socket.send(JSON.stringify(newUser));
+        console.log(newUser);
       }
     }
   }
@@ -27,28 +34,32 @@ export default class App extends Component {
     if (event.key === 'Enter') {
       const oldMessages = this.state.messages;
       const newMessage = {
+        type: 'postMessage',
         id: UUID(),
         username: this.state.currentUser,
         content: event.target.value
-      }
-      const socket = new WebSocket("ws://localhost:3001");
-      socket.onopen = function (event) {
-        socket.send(JSON.stringify(newMessage));
-      }
-      socket.onmessage = (event) => {
-        var msg = JSON.parse(event.data);
-        let messages = this.state.messages.concat(msg);
-        this.setState({messages: messages})
       }
       console.log(newMessage);
       this.setState({
         messages: [...oldMessages, newMessage]
       });
+      if (this.socket.readyState === 1) {
+        this.socket.send(JSON.stringify(newMessage));
+      }
     }
   }
 
   componentDidMount() {
     console.log("componentDidMount <App />");
+    this.socket = new WebSocket("ws://localhost:3001");
+    this.socket.onopen = function (event) {
+      console.log('connected');
+    }
+    this.socket.onmessage = (event) => {
+      var data = JSON.parse(event.data);
+      let messages = this.state.messages.concat(data);
+      this.setState({ messages: messages })
+    }
 
     setTimeout(() => {
       console.log("Simulating incoming message");
