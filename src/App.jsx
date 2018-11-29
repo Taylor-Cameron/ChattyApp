@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
+import UUID from 'uuid';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       messages: [],
       currentUser: 'Anonymous'
     }
@@ -25,9 +27,13 @@ export default class App extends Component {
     if (event.key === 'Enter') {
       const oldMessages = this.state.messages;
       const newMessage = {
-        id: (Math.round(Math.random() * 10000)),
+        id: UUID(),
         username: this.state.currentUser,
         content: event.target.value
+      }
+      const socket = new WebSocket("ws://localhost:3001");
+      socket.onopen = function (event) {
+        socket.send(JSON.stringify(newMessage));
       }
       console.log(newMessage);
       this.setState({
@@ -38,6 +44,7 @@ export default class App extends Component {
 
   componentDidMount() {
     console.log("componentDidMount <App />");
+
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
