@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Message from './Message.jsx';
 import Notification from './notification.jsx';
 
+/* renders message class based on message.type
+allows for different styles on notifications
+*/
 class MessageList extends Component {
   render() {
     return (

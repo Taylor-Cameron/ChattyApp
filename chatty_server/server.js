@@ -19,7 +19,7 @@ const wss = new SocketServer.Server({ server });
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  console.log('Client connected');
+  // creates userCount object to be sent to server
   userCount = {
     type: "userCountChange",
     count: wss.clients.size
@@ -27,7 +27,8 @@ wss.on('connection', (ws) => {
   wss.clients.forEach(function each(client) {
     client.send(JSON.stringify(userCount));
   })
-  console.log(wss.clients.size);
+  //when message is recieved change data type from 'post...' to 'incoming...'
+  //then send data
   ws.on("message", (data) => {
     data = JSON.parse(data);
     if(data.type === 'postMessage') {
@@ -44,6 +45,7 @@ wss.on('connection', (ws) => {
     })
   })
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
+  // send updated userCount to reflect user count change
   ws.on('close', () => {
     userCount = {
       type: "userCountChange",

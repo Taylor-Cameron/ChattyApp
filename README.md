@@ -13,7 +13,8 @@ The purpose of this project was to use the boiler plate and build on it using re
 3. Go to <http://localhost:3000>, the websockets allows for real-time chat on multiple browsers on the same page.
 
 ### Dependencies
-
+* express
+* ws
 * React
 * React-DOM
 * uuid

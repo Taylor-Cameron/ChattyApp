@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-
+/* chatbar renders the chatbar with text input boxes for username and messages */
 class ChatBar extends Component {
 
   render() {
