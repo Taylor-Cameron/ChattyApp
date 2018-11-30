@@ -24,5 +24,5 @@ This multi user chat app, allows users to communicate on multiple browsers. by d
 
 ### ScreenShots
 
-!["Screenshot of chattyApp project"]()
+!["Screenshot of chattyApp project"](styles/images/chatty-chalkboard.png)
 
