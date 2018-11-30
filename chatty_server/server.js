@@ -20,8 +20,8 @@ const wss = new SocketServer.Server({ server });
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   // creates userCount object to be sent to server
-  userCount = {
-    type: "userCountChange",
+  let userCount = {
+    type: 'userCountChange',
     count: wss.clients.size
   }
   wss.clients.forEach(function each(client) {
@@ -29,7 +29,7 @@ wss.on('connection', (ws) => {
   })
   //when message is recieved change data type from 'post...' to 'incoming...'
   //then send data
-  ws.on("message", (data) => {
+  ws.on('message', (data) => {
     data = JSON.parse(data);
     if(data.type === 'postMessage') {
       data.type = 'incomingMessage';
@@ -39,7 +39,7 @@ wss.on('connection', (ws) => {
     }
     data = JSON.stringify(data);
     wss.clients.forEach(function each(client) {
-      if (client !== ws && client.readyState === 1) {
+      if (client !== ws && client.readyState === SocketServer.OPEN) {
         client.send(data);
       }
     })
@@ -48,12 +48,11 @@ wss.on('connection', (ws) => {
   // send updated userCount to reflect user count change
   ws.on('close', () => {
     userCount = {
-      type: "userCountChange",
+      type: 'userCountChange',
       count: wss.clients.size
     }
     wss.clients.forEach(function each(client) {
       client.send(JSON.stringify(userCount));
     })
-    console.log('Client disconnected')
   });
 });

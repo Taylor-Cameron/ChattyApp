@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import UUID from 'uuid';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
-import Navbar from './Nav-bar.jsx';
+import Navbar from './Navbar.jsx';
 
 /* creates app class with state for messages*/
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
+      id: '',
       messages: [],
       currentUser: 'Anonymous',
       userCount: 0
@@ -17,9 +17,8 @@ export default class App extends Component {
   }
 /* new name function listens for on click event of user text box,
 sets state of current user to event value */
-  newName = (event) => {
-    if (event.key === 'Enter') {
-      if(event.target.value) {
+  handleNewName = (event) => {
+    if (event.key === 'Enter' && event.target.value) {
         this.setState({
           currentUser: event.target.value
         })
@@ -28,13 +27,11 @@ sets state of current user to event value */
           content: (this.state.currentUser + ' has changed their name to ' + event.target.value)
         }
         this.socket.send(JSON.stringify(newUser));
-        console.log(newUser);
       }
     }
-  }
 /* listens  for on click event of message text box
 sets state of newMessage and adds to state.messages array*/
-  newMessages = (event) => {
+  handleNewMessage = (event) => {
     if (event.key === 'Enter') {
       const oldMessages = this.state.messages;
       const newMessage = {
@@ -43,7 +40,6 @@ sets state of newMessage and adds to state.messages array*/
         username: this.state.currentUser,
         content: event.target.value
       }
-      console.log(newMessage);
       this.setState({
         messages: [...oldMessages, newMessage]
       });
@@ -59,14 +55,13 @@ sets state of newMessage and adds to state.messages array*/
     userName change and message value change) to server
   */
   componentDidMount() {
-    this.socket = new WebSocket("ws://localhost:3001");
+    this.socket = new WebSocket('ws://localhost:3001');
     this.socket.onmessage = (event) => {
-      console.log(event.data);
-      var data = JSON.parse(event.data);
+      const data = JSON.parse(event.data);
       if(data.type === 'userCountChange') {
         this.setState({userCount: data.count});
       } else {
-        let messages = this.state.messages.concat(data);
+        const messages = this.state.messages.concat(data);
         this.setState({ messages: messages })
       }
     }
@@ -77,7 +72,7 @@ sets state of newMessage and adds to state.messages array*/
         <div>
           < Navbar userCount={this.state.userCount} />
           < MessageList messages={this.state.messages} />
-          < ChatBar currentUser={this.state.currentUser} newName={this.newName} newMessages={this.newMessages} />
+          < ChatBar currentUser={this.state.currentUser} newName={this.handleNewName} newMessages={this.handleNewMessage} />
         </div>
 
     );

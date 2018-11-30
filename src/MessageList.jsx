@@ -1,41 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Message from './Message.jsx';
-import Notification from './notification.jsx';
+import Notification from './Notification.jsx';
 
 /* renders message class based on message.type
 allows for different styles on notifications
 */
-class MessageList extends Component {
-  render() {
-    return (
-      <main className="messages">
-        {this.props.messages.map((message) => {
-          switch(message.type) {
-            case 'incomingMessage':
-              return (
-              <Message
-                key={message.id}
-                username={message.username}
-                content={message.content}
-              />)
-            case 'postMessage':
+export default function MessageList(props) {
+  return (
+    <main className='messages'>
+      {props.messages.map((message) => {
+        switch(message.type) {
+          case 'incomingMessage':
+          case 'postMessage':
             return (
               <Message
                 key={message.id}
                 username={message.username}
                 content={message.content}
-              />)
-            case 'incomingNotification':
-              return (
-                <Notification
-                  content={message.content}
-                />)
-          }
-        })}
-      </main>
-    );
-  }
+              />
+            )
+
+          case 'incomingNotification':
+            return (
+              <Notification
+                content={message.content}
+              />
+            )
+        }
+      })
+      }
+    </main>
+  );
 }
-
-
-export default MessageList;
