@@ -2,15 +2,14 @@
   @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 
     body {
-      background: white;
-      color: black;
-      font-family: 'Open Sans', sans-serif;
+      background-image: url(http://schoolscamanachd.com/wp-content/uploads/2017/11/united-states-blackboard-chalk-photography-chalkboard-transprent-png-free-downloadputer-wallpaper-atmosphere-phenomenon-kisspng.png);
+      font-family: 'Chalkduster';
       font-size: 14px;
       margin: 70px 0;
     }
 
     .chatbar {
-      background: tomato;
+      background: #F7882F;
       border-top: 1px solid black;
       bottom: 0;
       display: flex;
@@ -44,18 +43,22 @@
     }
 
     .message.system {
+      Color: white;
       font-style: italic;
       padding: 5px 20px;
     }
 
     .message-content,
     .message-username {
+      Color: white;
       overflow: hidden;
       margin: 5px;
       padding: 0 10px;
     }
 
     .message-content {
+      Color: white;
+      font-size: 20px;
       flex: 8;
     }
 
@@ -63,9 +66,13 @@
       flex: 2;
       font-weight: 700;
     }
+    .notification-content {
+       Color: white;
+      flex: 8;
+    }
 
     .navbar {
-      background: tomato;
+      background: #F7882F;
       border-bottom: 1px solid black;
       height: 60px;
       left: 0;
@@ -76,7 +83,7 @@
     }
 
     .navbar-brand {
-      color: inherit;
+      color: #6B7A8F;
       display: block;
       float: left;
       font-weight: 700;
@@ -88,6 +95,7 @@
     }
 
     .userCount {
+      color: #6B7A8F;
       float: right;
       margin-right: 2rem;
       margin-top: 1.5rem;

@@ -73,12 +73,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
-        < Navbar userCount={this.state.userCount}/>
-        < MessageList messages={this.state.messages} />
-        < ChatBar currentUser={this.state.currentUser} newName={this.newName} newMessages={this.newMessages}/>
-      </div>
-
+        <div>
+          < Navbar userCount={this.state.userCount} />
+          < MessageList messages={this.state.messages} />
+          < ChatBar currentUser={this.state.currentUser} newName={this.newName} newMessages={this.newMessages} />
+        </div>
 
     );
   }
