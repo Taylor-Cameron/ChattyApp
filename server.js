@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const  WebpackDevServer = require('webpack-dev-server');
 const  config = require('./webpack.config');
-const UUID = require('uuid');
+
 
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
