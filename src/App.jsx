@@ -45,6 +45,7 @@ export default class App extends Component {
       this.setState({
         messages: [...oldMessages, newMessage]
       });
+      event.target.value = '';
       if (this.socket.readyState === 1) {
         this.socket.send(JSON.stringify(newMessage));
       }
